@@ -3,7 +3,7 @@
 // Owns the BridgeClient instance and surfaces its state to SwiftUI.
 // Phase 2a: instantiates the client when a device token is available
 // (currently from the BRIDGE_DEVICE_TOKEN env var or a config file
-// at ~/Library/Application Support/Noos Bridge/device-token.txt).
+// at ~/Library/Application Support/<app name>/device-token.txt).
 // Phase 2b will replace those with OAuth + Keychain.
 
 import SwiftUI
@@ -104,7 +104,7 @@ final class BridgeController: ObservableObject, BridgeClientDelegate {
     private func bootstrapFromEnvOrFiles() async {
         self.noosUserId = KeychainStorage.getUserId()
 
-        // Token priority: Keychain > env var > ~/Library/Application Support/Noos Bridge/device-token.txt
+        // Token priority: Keychain > env var > ~/Library/Application Support/<app name>/device-token.txt
         let token = readDeviceToken()
         self.hasDeviceToken = token != nil && !(token?.isEmpty ?? true)
 
@@ -138,8 +138,7 @@ final class BridgeController: ObservableObject, BridgeClientDelegate {
         if let env = ProcessInfo.processInfo.environment["BRIDGE_DEVICE_TOKEN"], !env.isEmpty {
             return env
         }
-        let home = NSString(string: "~").expandingTildeInPath
-        let path = "\(home)/Library/Application Support/Noos Bridge/device-token.txt"
+        let path = "\(AppInfo.applicationSupportDirectory)/device-token.txt"
         if let data = try? String(contentsOfFile: path, encoding: .utf8) {
             return data.trimmingCharacters(in: .whitespacesAndNewlines)
         }

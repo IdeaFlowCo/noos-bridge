@@ -34,7 +34,7 @@ rm -rf "$STAGING_DIR" "$TMP_DMG_PATH" "$DMG_PATH"
 mkdir -p "$STAGING_DIR"
 
 echo "==> Building ${APP_NAME} ${APP_VERSION} (${APP_BUILD})"
-CONFIGURATION=release APP_VERSION="$APP_VERSION" APP_BUILD="$APP_BUILD" "$SCRIPT_DIR/build-app.sh"
+APP_CHANNEL=production CONFIGURATION=release APP_VERSION="$APP_VERSION" APP_BUILD="$APP_BUILD" "$SCRIPT_DIR/build-app.sh"
 
 echo "==> Staging app"
 ditto "$APP_BUNDLE" "$STAGING_DIR/${APP_NAME}.app"

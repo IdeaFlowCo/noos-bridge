@@ -36,7 +36,7 @@ struct ContactsService: Service {
         case .denied, .restricted:
             throw ServiceError.permissionDenied(
                 source: id,
-                remediation: "Open System Settings → Privacy & Security → Contacts and toggle on Noos Bridge."
+                remediation: "Open System Settings → Privacy & Security → Contacts and toggle on \(AppInfo.displayName)."
             )
         case .notDetermined:
             try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in

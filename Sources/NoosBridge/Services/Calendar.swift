@@ -41,7 +41,7 @@ struct CalendarService: Service {
         case .denied, .restricted:
             throw ServiceError.permissionDenied(
                 source: id,
-                remediation: "Open System Settings → Privacy & Security → Calendars and toggle on Noos Bridge."
+                remediation: "Open System Settings → Privacy & Security → Calendars and toggle on \(AppInfo.displayName)."
             )
         default: break
         }

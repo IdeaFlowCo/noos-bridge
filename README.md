@@ -44,10 +44,18 @@ Build a local app bundle:
 CONFIGURATION=debug SKIP_SIGN=1 Scripts/build-app.sh
 ```
 
+Install a distinct development app for day-to-day testing:
+
+```bash
+Scripts/install-dev.sh
+```
+
+This installs `/Applications/Noos Bridge Dev.app` with its own bundle ID, icon, Keychain service, and Application Support folder so dev testing does not mutate production pairing credentials or macOS privacy grants.
+
 Build a signed release bundle if you have the IdeaFlow Developer ID certificate installed:
 
 ```bash
-CONFIGURATION=release Scripts/build-app.sh
+APP_CHANNEL=production CONFIGURATION=release Scripts/build-app.sh
 ```
 
 Package a release DMG:
@@ -55,6 +63,20 @@ Package a release DMG:
 ```bash
 APP_VERSION=0.2.22 APP_BUILD=1 Scripts/package-release.sh
 ```
+
+Install the latest production release from GitHub:
+
+```bash
+Scripts/install-prod.sh
+```
+
+Regenerate app icons after editing the icon source script:
+
+```bash
+Scripts/generate-icons.py
+```
+
+Production uses `Resources/AppIcon.icns`; development uses `Resources/AppIconDev.icns` with an orange `DEV` ribbon.
 
 ## Configuration
 

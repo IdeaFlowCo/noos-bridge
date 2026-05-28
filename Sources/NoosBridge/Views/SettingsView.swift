@@ -59,7 +59,9 @@ struct SettingsView: View {
                 }
                 LabeledContent("This Mac", value: controller.hostname)
                 LabeledContent("Version",
-                    value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.0")
+                    value: AppInfo.versionLabel)
+                LabeledContent("Channel", value: AppInfo.buildChannel)
+                LabeledContent("Commit", value: AppInfo.gitCommit)
                 if let userId = controller.noosUserId {
                     LabeledContent("Noos user", value: userId)
                 }
@@ -79,7 +81,7 @@ struct SettingsView: View {
                 Button {
                     controller.restartApp()
                 } label: {
-                    Label("Restart Noos Bridge", systemImage: "arrow.clockwise.circle")
+                    Label("Restart \(AppInfo.displayName)", systemImage: "arrow.clockwise.circle")
                 }
                 if let err = controller.lastError {
                     Label(err, systemImage: "exclamationmark.triangle")
@@ -98,7 +100,7 @@ struct SettingsView: View {
                 }
                 Text(controller.remoteUnlockAllowed
                     ? "Default: web and mobile can send a bridge password to this Mac for local verification. Noos does not save it."
-                    : "Local-only lock: web and mobile cannot unlock this Mac. Unlock from Noos Bridge.app.")
+                    : "Local-only lock: web and mobile cannot unlock this Mac. Unlock from \(AppInfo.displayName).")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 if controller.lock == .unlocked {
@@ -134,7 +136,7 @@ struct SettingsView: View {
             }
 
             Section("Preferences") {
-                Toggle("Launch Noos Bridge at login", isOn: $launchAtLogin)
+                Toggle("Launch \(AppInfo.displayName) at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { new in
                         do {
                             if new { try SMAppService.mainApp.register() }
@@ -170,7 +172,7 @@ struct SettingsView: View {
                 } label: {
                     Label("Recheck Full Disk Access", systemImage: "arrow.clockwise")
                 }
-                Text("Noos Bridge needs Full Disk Access to read Messages' local chat.db. macOS requires you to grant this manually in System Settings.")
+                Text("\(AppInfo.displayName) needs Full Disk Access to read Messages' local chat.db. macOS requires you to grant this manually in System Settings.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -221,14 +223,17 @@ struct SettingsView: View {
             Section("About") {
                 LabeledContent("Bundle ID", value: Bundle.main.bundleIdentifier ?? "(unknown)")
                 LabeledContent("Version",
-                    value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.0")
+                    value: AppInfo.versionLabel)
+                LabeledContent("Channel", value: AppInfo.buildChannel)
+                LabeledContent("Commit", value: AppInfo.gitCommit)
+                LabeledContent("Support folder", value: AppInfo.applicationSupportDirectoryName)
                 LabeledContent("Hostname", value: controller.hostname)
             }
             Section("Diagnostics") {
                 Button {
                     controller.restartApp()
                 } label: {
-                    Label("Restart Noos Bridge", systemImage: "arrow.clockwise.circle")
+                    Label("Restart \(AppInfo.displayName)", systemImage: "arrow.clockwise.circle")
                 }
                 Button("Open system logs") {
                     NSWorkspace.shared.open(URL(fileURLWithPath: "/var/log"))

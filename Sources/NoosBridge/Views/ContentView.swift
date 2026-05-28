@@ -24,7 +24,7 @@ struct ContentView: View {
             Image(systemName: "circle.dotted")
                 .imageScale(.medium)
                 .foregroundStyle(.tint)
-            Text("Noos Bridge")
+            Text(AppInfo.displayName)
                 .font(.headline)
             Spacer()
         }
@@ -100,7 +100,7 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 12).padding(.vertical, 6)
 
-            Button("Restart Noos Bridge") {
+            Button("Restart \(AppInfo.displayName)") {
                 controller.restartApp()
             }
                 .buttonStyle(.borderless)
@@ -109,7 +109,7 @@ struct ContentView: View {
 
             Divider().padding(.vertical, 4)
 
-            Button("About Noos Bridge…") { openWindow(id: "about") }
+            Button("About \(AppInfo.displayName)…") { openWindow(id: "about") }
                 .buttonStyle(.borderless)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 12).padding(.vertical, 6)

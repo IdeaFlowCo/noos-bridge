@@ -1,7 +1,7 @@
 // BridgePassword.swift — local password verifier for the bridge lock/unlock flow.
 //
 // v1 (Phase 1, Shape 1): salted SHA-256 hash in
-// ~/Library/Application Support/Noos Bridge/state.json (mode 0600).
+// ~/Library/Application Support/<app name>/state.json (mode 0600).
 // Phase 2 upgrades to Argon2id-derived key + Secure Enclave Keychain ACL
 // (see noos-uuga.14).
 //
@@ -20,8 +20,7 @@ enum BridgePassword {
         if let dir = ProcessInfo.processInfo.environment["BRIDGE_STATE_DIR"], !dir.isEmpty {
             return "\(dir)/state.json"
         }
-        let home = NSString(string: "~").expandingTildeInPath
-        return "\(home)/Library/Application Support/Noos Bridge/state.json"
+        return "\(AppInfo.applicationSupportDirectory)/state.json"
     }
 
     private struct State: Codable {

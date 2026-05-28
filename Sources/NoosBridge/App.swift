@@ -31,7 +31,7 @@ struct NoosBridgeApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra("Noos Bridge", systemImage: controller.menuBarIconName) {
+        MenuBarExtra(AppInfo.displayName, systemImage: controller.menuBarIconName) {
             ContentView()
                 .environmentObject(controller)
         }
@@ -39,7 +39,7 @@ struct NoosBridgeApp: App {
 
         // About panel — separate scene so it can be summoned without focusing
         // on Settings.
-        Window("About Noos Bridge", id: "about") {
+        Window("About \(AppInfo.displayName)", id: "about") {
             AboutView()
                 .frame(width: 380, height: 220)
         }
@@ -89,7 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     .frame(minWidth: 480, minHeight: 360)
             )
             let win = NSWindow(contentViewController: host)
-            win.title = "Noos Bridge Settings"
+            win.title = "\(AppInfo.displayName) Settings"
             win.styleMask = [.titled, .closable, .miniaturizable, .resizable]
             win.setContentSize(NSSize(width: 520, height: 400))
             win.center()

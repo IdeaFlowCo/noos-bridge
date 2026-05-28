@@ -53,7 +53,7 @@ struct MessagesService: Service {
         // after the user grants and re-launches (or just retries).
         throw ServiceError.permissionDenied(
             source: id,
-            remediation: "Open System Settings → Privacy & Security → Full Disk Access and toggle on Noos Bridge."
+            remediation: "Open System Settings → Privacy & Security → Full Disk Access and toggle on \(AppInfo.displayName)."
         )
     }
 

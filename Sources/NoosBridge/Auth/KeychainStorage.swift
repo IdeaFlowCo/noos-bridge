@@ -4,7 +4,7 @@ import Foundation
 import Security
 
 enum KeychainStorage {
-    private static let service = "com.ideaflow.noos-bridge"
+    private static var service: String { AppInfo.bundleIdentifier }
     private static let tokenAccount = "device-token"
     private static let userIdAccount = "noos-user-id"
 
