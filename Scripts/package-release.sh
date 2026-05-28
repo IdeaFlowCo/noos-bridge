@@ -20,6 +20,7 @@ PKG_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
 
 APP_VERSION="${APP_VERSION:-0.2.22}"
 APP_BUILD="${APP_BUILD:-1}"
+SIGN_IDENTITY="${SIGN_IDENTITY:-Developer ID Application: IdeaFlow, Inc. (JESMXK96LG)}"
 APP_NAME="Noos Bridge"
 DMG_BASENAME="Noos-Bridge-${APP_VERSION}-${APP_BUILD}"
 DIST_DIR="$PKG_DIR/dist"
@@ -50,6 +51,14 @@ hdiutil create \
 hdiutil convert "$TMP_DMG_PATH" -format UDZO -imagekey zlib-level=9 -o "$DMG_PATH" >/dev/null
 rm -f "$TMP_DMG_PATH"
 rm -rf "$STAGING_DIR"
+
+echo "==> Signing DMG"
+if [ "${SKIP_SIGN:-0}" = "1" ]; then
+  echo "SKIP_SIGN=1, skipping DMG signing"
+else
+  codesign --force --timestamp --sign "$SIGN_IDENTITY" "$DMG_PATH"
+  codesign --verify --verbose=2 "$DMG_PATH"
+fi
 
 echo "==> Verifying code signature"
 if [ "${SKIP_SIGN:-0}" = "1" ]; then

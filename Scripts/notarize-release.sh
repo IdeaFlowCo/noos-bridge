@@ -37,7 +37,14 @@ echo "==> Stapling notarization ticket"
 xcrun stapler staple "$ARTIFACT"
 
 echo "==> Gatekeeper assessment"
-spctl -a -vv "$ARTIFACT"
+case "$ARTIFACT" in
+  *.dmg)
+    spctl -a -t open --context context:primary-signature -vv "$ARTIFACT"
+    ;;
+  *)
+    spctl -a -vv "$ARTIFACT"
+    ;;
+esac
 
 echo
 echo "Notarized and stapled:"
