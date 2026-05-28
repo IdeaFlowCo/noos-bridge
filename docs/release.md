@@ -12,12 +12,14 @@ The output is written to `dist/`.
 
 ## Notarization
 
-Use a stored notarytool profile:
+On Jacob's M5, use the stored IdeaFlow notarytool profile:
 
 ```bash
 NOTARYTOOL_PROFILE=ideaflow-notary \
   Scripts/notarize-release.sh dist/Noos-Bridge-0.2.22-1.dmg
 ```
+
+That profile lives in the local Keychain and validates against IdeaFlow's App Store Connect API key material under `~/.appstoreconnect/`. Do not print or commit the `.p8` private key contents.
 
 Or pass Apple credentials through environment variables:
 
@@ -36,5 +38,8 @@ After packaging:
 
 ```bash
 codesign --verify --deep --strict --verbose=2 "build/Noos Bridge.app"
-spctl -a -vv "dist/Noos-Bridge-0.2.22-1.dmg"
+spctl -a -t open --context context:primary-signature -vv "dist/Noos-Bridge-0.2.22-1.dmg"
+stapler validate "dist/Noos-Bridge-0.2.22-1.dmg"
 ```
+
+A successful notarized DMG assessment should report `accepted` with source `Notarized Developer ID`.
