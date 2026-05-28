@@ -53,11 +53,11 @@ final class BridgeController: ObservableObject, BridgeClientDelegate {
     /// Default broker URL. Override for local testing via BRIDGE_WSS_URL env var.
     static let defaultWssURL = URL(string: "wss://globalbr.ai/api/bridge/connect")!
 
-    private static var configuredWssURL: URL {
+    static var configuredWssURL: URL {
         URL(string: ProcessInfo.processInfo.environment["BRIDGE_WSS_URL"] ?? "") ?? defaultWssURL
     }
 
-    private static var configuredAuthURL: URL {
+    static var configuredAuthURL: URL {
         if let explicit = URL(string: ProcessInfo.processInfo.environment["BRIDGE_AUTH_URL"] ?? "") {
             return explicit
         }
@@ -80,6 +80,9 @@ final class BridgeController: ObservableObject, BridgeClientDelegate {
         case (.error, _):            return "exclamationmark.triangle.fill"
         }
     }
+
+    var bridgeServerURL: URL { Self.configuredWssURL }
+    var bridgeSignInURL: URL { Self.configuredAuthURL }
 
     init() {
         Self.shared = self

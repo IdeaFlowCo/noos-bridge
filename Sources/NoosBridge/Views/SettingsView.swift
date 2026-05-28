@@ -24,6 +24,7 @@ private let comingSoonSources: [ComingSoonSource] = [
 
 struct SettingsView: View {
     @EnvironmentObject var controller: BridgeController
+    @Environment(\.openWindow) private var openWindow
     @AppStorage("launchAtLogin") private var launchAtLogin: Bool = false
     @State private var unlockPassword = ""
 
@@ -64,6 +65,10 @@ struct SettingsView: View {
                 LabeledContent("Commit", value: AppInfo.gitCommit)
                 LabeledContent("Web app") {
                     Text(AppInfo.webAppURL.absoluteString)
+                        .textSelection(.enabled)
+                }
+                LabeledContent("Bridge server") {
+                    Text(controller.bridgeServerURL.absoluteString)
                         .textSelection(.enabled)
                 }
                 if let userId = controller.noosUserId {
@@ -236,10 +241,26 @@ struct SettingsView: View {
                 LabeledContent("Channel", value: AppInfo.buildChannel)
                 LabeledContent("Commit", value: AppInfo.gitCommit)
                 LabeledContent("Support folder", value: AppInfo.applicationSupportDirectoryName)
-                LabeledContent("Web app", value: AppInfo.webAppURL.absoluteString)
+                LabeledContent("Web app") {
+                    Text(AppInfo.webAppURL.absoluteString)
+                        .textSelection(.enabled)
+                }
+                LabeledContent("Bridge server") {
+                    Text(controller.bridgeServerURL.absoluteString)
+                        .textSelection(.enabled)
+                }
+                LabeledContent("Sign-in URL") {
+                    Text(controller.bridgeSignInURL.absoluteString)
+                        .textSelection(.enabled)
+                }
                 LabeledContent("Hostname", value: controller.hostname)
             }
             Section("Diagnostics") {
+                Button {
+                    openWindow(id: "about")
+                } label: {
+                    Label("About \(AppInfo.displayName)…", systemImage: "info.circle")
+                }
                 Button {
                     controller.restartApp()
                 } label: {
@@ -247,6 +268,11 @@ struct SettingsView: View {
                 }
                 Button("Open system logs") {
                     NSWorkspace.shared.open(URL(fileURLWithPath: "/var/log"))
+                }
+                Button(role: .destructive) {
+                    NSApplication.shared.terminate(nil)
+                } label: {
+                    Label("Quit \(AppInfo.displayName)", systemImage: "xmark.circle")
                 }
             }
             Section("Recent Events") {
