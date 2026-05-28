@@ -1,0 +1,21 @@
+.build/
+build/
+dist/
+.swiftpm/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+.DS_Store
+*.xcuserstate
+
+# Local bridge credentials and generated app state must never be committed.
+device-token.txt
+bridge-password.json
+.env
+.env.*
+!.env.example
+
+# Release products are generated locally or by CI.
+*.dmg
+*.zip
