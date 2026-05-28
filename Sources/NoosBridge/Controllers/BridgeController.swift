@@ -198,6 +198,12 @@ final class BridgeController: ObservableObject, BridgeClientDelegate {
         appendLog("Opened bridge sign-in in browser: \(url)", .info)
     }
 
+    func openWebApp() {
+        let url = AppInfo.webAppURL
+        NSWorkspace.shared.open(url)
+        appendLog("Opened Ask My Mac web app: \(url)", .info)
+    }
+
     func didReceiveDeviceToken(_ token: String, userId: String) {
         KeychainStorage.setDeviceToken(token, userId: userId)
         noosUserId = userId

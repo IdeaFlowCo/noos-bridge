@@ -15,6 +15,7 @@
 #   APP_BUILD          — CFBundleVersion             (default: 1)
 #   CONFIGURATION      — release | debug             (default: debug for fast iteration)
 #   SKIP_SIGN          — set to 1 to skip codesign (for ad-hoc dev runs)
+#   BRIDGE_WEB_URL     — human web app URL opened by the Mac app
 #
 # After this script: drag the .app to /Applications, launch via NoMachine.
 
@@ -33,12 +34,14 @@ case "$APP_CHANNEL" in
     DEFAULT_APP_NAME="Noos Bridge"
     DEFAULT_BUNDLE_ID="com.ideaflow.noos-bridge"
     DEFAULT_ICON_NAME="AppIcon"
+    DEFAULT_WEB_URL="https://globalbr.ai/ask-my-mac"
     ;;
   dev|development)
     APP_CHANNEL="dev"
     DEFAULT_APP_NAME="Noos Bridge Dev"
     DEFAULT_BUNDLE_ID="com.ideaflow.noos-bridge.dev"
     DEFAULT_ICON_NAME="AppIconDev"
+    DEFAULT_WEB_URL="http://localhost:33217/ask-my-mac"
     ;;
   *)
     echo "ERROR: APP_CHANNEL must be dev or production (got '$APP_CHANNEL')" >&2
@@ -48,6 +51,7 @@ esac
 APP_NAME="${APP_NAME:-$DEFAULT_APP_NAME}"
 BUNDLE_ID="${BUNDLE_ID:-$DEFAULT_BUNDLE_ID}"
 ICON_NAME="${ICON_NAME:-$DEFAULT_ICON_NAME}"
+BRIDGE_WEB_URL="${BRIDGE_WEB_URL:-$DEFAULT_WEB_URL}"
 EXE_NAME="NoosBridge"
 GIT_COMMIT="$(git -C "$PKG_DIR" rev-parse --short HEAD 2>/dev/null || echo local)"
 BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
@@ -111,6 +115,7 @@ cat > "$APP_BUNDLE/Contents/Info.plist" <<PLIST
   <key>BridgeBuildChannel</key>          <string>$APP_CHANNEL</string>
   <key>BridgeGitCommit</key>             <string>$GIT_COMMIT</string>
   <key>BridgeBuildDate</key>             <string>$BUILD_DATE</string>
+  <key>BridgeWebURL</key>                <string>$BRIDGE_WEB_URL</string>
 
   <!-- LSMultipleInstancesProhibited prevents accidental double-launch -->
   <key>LSMultipleInstancesProhibited</key> <true/>

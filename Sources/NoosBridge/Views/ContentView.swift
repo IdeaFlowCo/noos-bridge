@@ -60,6 +60,13 @@ struct ContentView: View {
                 Divider().padding(.vertical, 4)
             }
 
+            Button("Open Ask My Mac…") {
+                controller.openWebApp()
+            }
+            .buttonStyle(.borderless)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 12).padding(.vertical, 6)
+
             Button("Open Control Window…") {
                 (NSApp.delegate as? AppDelegate)?.presentSettings()
             }

@@ -62,8 +62,17 @@ struct SettingsView: View {
                     value: AppInfo.versionLabel)
                 LabeledContent("Channel", value: AppInfo.buildChannel)
                 LabeledContent("Commit", value: AppInfo.gitCommit)
+                LabeledContent("Web app") {
+                    Text(AppInfo.webAppURL.absoluteString)
+                        .textSelection(.enabled)
+                }
                 if let userId = controller.noosUserId {
                     LabeledContent("Noos user", value: userId)
+                }
+                Button {
+                    controller.openWebApp()
+                } label: {
+                    Label("Open Ask My Mac…", systemImage: "safari")
                 }
                 if isSignedOut {
                     Button {
@@ -227,6 +236,7 @@ struct SettingsView: View {
                 LabeledContent("Channel", value: AppInfo.buildChannel)
                 LabeledContent("Commit", value: AppInfo.gitCommit)
                 LabeledContent("Support folder", value: AppInfo.applicationSupportDirectoryName)
+                LabeledContent("Web app", value: AppInfo.webAppURL.absoluteString)
                 LabeledContent("Hostname", value: controller.hostname)
             }
             Section("Diagnostics") {

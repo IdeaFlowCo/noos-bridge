@@ -52,6 +52,8 @@ Scripts/install-dev.sh
 
 This installs `/Applications/Noos Bridge Dev.app` with its own bundle ID, icon, Keychain service, and Application Support folder so dev testing does not mutate production pairing credentials or macOS privacy grants.
 
+The dev app opens `http://localhost:33217/ask-my-mac` from its **Open Ask My Mac** button by default.
+
 Build a signed release bundle if you have the IdeaFlow Developer ID certificate installed:
 
 ```bash
@@ -70,6 +72,8 @@ Install the latest production release from GitHub:
 Scripts/install-prod.sh
 ```
 
+The production app opens `https://globalbr.ai/ask-my-mac` from its **Open Ask My Mac** button by default.
+
 Regenerate app icons after editing the icon source script:
 
 ```bash
@@ -84,6 +88,7 @@ The official defaults point at Noos:
 
 - `BRIDGE_WSS_URL`: broker WebSocket URL, default `wss://globalbr.ai/api/bridge/connect`
 - `BRIDGE_AUTH_URL`: pairing URL, derived from `BRIDGE_WSS_URL` unless set
+- `BRIDGE_WEB_URL`: human web/mobile app URL opened by the Mac app, default `https://globalbr.ai/ask-my-mac` for production and `http://localhost:33217/ask-my-mac` for dev
 - `BRIDGE_DEVICE_TOKEN`: development-only token override
 - `BRIDGE_PASSWORD`: development-only first-run bridge password setup
 

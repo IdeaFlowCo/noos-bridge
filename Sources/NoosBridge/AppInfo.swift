@@ -40,4 +40,19 @@ enum AppInfo {
     static var gitCommit: String {
         Bundle.main.object(forInfoDictionaryKey: "BridgeGitCommit") as? String ?? "local"
     }
+
+    static var webAppURL: URL {
+        if let envURL = URL(string: ProcessInfo.processInfo.environment["BRIDGE_WEB_URL"] ?? ""),
+           envURL.scheme == "http" || envURL.scheme == "https" {
+            return envURL
+        }
+        if let plistValue = Bundle.main.object(forInfoDictionaryKey: "BridgeWebURL") as? String,
+           let plistURL = URL(string: plistValue),
+           plistURL.scheme == "http" || plistURL.scheme == "https" {
+            return plistURL
+        }
+        return URL(string: isDevelopmentBuild
+            ? "http://localhost:33217/ask-my-mac"
+            : "https://globalbr.ai/ask-my-mac")!
+    }
 }
